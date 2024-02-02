@@ -1,36 +1,33 @@
+import { IsDateString } from '@app/common/utils/custom-date-validators';
 import { ApiProperty } from '@nestjs/swagger';
-import { Transform, Type } from 'class-transformer';
-import { IsDateString, IsMongoId, IsNotEmpty, IsNumber, IsString, Max, MaxLength, MinLength } from 'class-validator';
-import moment from 'moment';
+import { IsMongoId, IsNotEmpty, IsNumber, IsString, Matches, Max, MaxLength, MinLength } from 'class-validator';
+import moment = require ('moment');
+
 
 export class CreateEventDto {
     @ApiProperty()
-    @Type(() => Date)
-    @Transform(({ value }) => moment(value).format('YYYY-MM-DD'))
-    @IsDateString()
+    @IsDateString({ message: 'startDate must be a valid date string in YYYY-MM-DD format' })
     @IsNotEmpty()
     readonly startDate: string
 
-    @ApiProperty()
-    @Type(() => Date)
-    @Transform(({ value }) => moment(value).format('HH:mm:ss'))
-    @IsDateString()
+    @IsString()
+    @Matches(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?$/, {
+        message: 'startTime must be a valid time string in HH:MM or HH:MM:SS format',
+    })
     @IsNotEmpty()
     readonly startTime: string
 
     @ApiProperty()
-    @Type(() => Date)
-    @Transform(({ value }) => moment(value).format('YYYY-MM-DD'))
-    @IsDateString()
+    @IsDateString({ message: 'endDate must be a valid date string in YYYY-MM-DD format' })
     @IsNotEmpty()
     readonly endDate: string
 
-    @ApiProperty()
-    @Type(() => Date)
-    @Transform(({ value }) => moment(value).format('HH:mm:ss'))
-    @IsDateString()
+    @IsString()
+    @Matches(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?$/, {
+        message: 'endTime must be a valid time string in HH:MM or HH:MM:SS format',
+    })
     @IsNotEmpty()
-    readonly endTime: string
+    readonly endTime: string;
 
     @ApiProperty()
     @MaxLength(50)
@@ -52,7 +49,7 @@ export class CreateEventDto {
     @IsString()
     readonly image?: string;
 
-    @Max(50)
+    @Max(150)
     @IsNotEmpty()
     @IsNumber()
     readonly participant?: number

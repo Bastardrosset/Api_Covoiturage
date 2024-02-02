@@ -10,7 +10,7 @@ import { RequestRepository } from './request.repository';
     DatabaseModule,
     DatabaseModule.forFeature([
       { name: RequestDocument.name, schema: RequestSchema }
-    ])
+    ]),
   ],
   controllers: [RequestController],
   providers: [RequestService, RequestRepository],

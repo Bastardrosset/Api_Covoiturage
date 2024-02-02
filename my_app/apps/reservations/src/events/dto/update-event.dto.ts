@@ -1,9 +1,5 @@
 import { CreateEventDto } from "./create-event.dto";
 import { PartialType } from '@nestjs/mapped-types';
-import { IsString } from "class-validator";
 
 
-export class UpdateEventDto extends PartialType(CreateEventDto) {
-    @IsString()
-    readonly id: string;
-}
+export class UpdateEventDto extends PartialType(CreateEventDto) { }
